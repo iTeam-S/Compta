@@ -34,7 +34,6 @@ class LoginController extends Controller
             $token = $user->createToken('CLE_SECRETE')->plainTextToken;
             
             return [
-                'user' => $user,
                 'token' => $token,
             ];
         }
