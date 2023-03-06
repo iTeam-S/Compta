@@ -1,0 +1,72 @@
+<mat-card>
+  <mat-card-content>
+    <div class="header">
+      <P>Create New Account</P>
+    </div>
+    <form (ngSubmit)="onRegister()" name="loginForm" [formGroup]="loginForm">
+      <div class="nameInput">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Name</mat-label>
+          <input
+            formControlName="name"
+            matInput
+            placeholder="Enter your name" required
+          />
+          <mat-error *ngIf="!loginForm.controls['name'].valid">
+              Name is required
+            </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="emailInput">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            formControlName="email"
+            matInput
+            placeholder="Enter email address" required
+          />
+          <mat-error *ngIf="!loginForm.controls['email'].valid">
+              Email is required
+            </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Password</mat-label>
+          <input formControlName="password" matInput [type]=" hide ? 'password' : 'text'" required />
+          <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
+          [attr.aria-pressed]="hide">
+          <mat-icon>
+              {{hide ? 'visibility' :'visibility_off'}}
+          </mat-icon>
+      </button>
+      <mat-error *ngIf="!loginForm.controls['password'].valid">
+          Password is required
+        </mat-error>
+      </mat-form-field>
+      </div>
+
+      <div class="roleInput">
+        <mat-form-field appearance="fill">
+          <mat-label>Favorite food</mat-label>
+          <mat-select [(value)]="role">
+            <mat-option *ngFor="let food of foods" [value]="food.value">
+              {{food.viewValue}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="!loginForm.controls['role'].valid">
+            Role is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <button mat-flat-button color="primary">Register</button>
+    </form>
+
+    <div class="button-row">
+      <p (click)="login()">Log in</p>
+    </div>
+  </mat-card-content>
+</mat-card>
