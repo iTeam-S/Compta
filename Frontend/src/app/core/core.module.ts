@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { httpInterceptorProviders } from './interceptor';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   ],
   imports: [
     CommonModule,
+    RouterModule,
     HttpClientModule
   ],
   providers: [
