@@ -21,7 +21,7 @@ class RegisterController extends Controller
 
         if($vs->fails()){
             return response()->json([
-                'err_message' => $vs->messages() 
+                'err_message' => $vs->errors() 
             ]);
         } else {
             User::create([

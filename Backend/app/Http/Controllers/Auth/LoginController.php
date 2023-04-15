@@ -24,7 +24,7 @@ class LoginController extends Controller
         ]);
 
         if($vs->fails()){
-            return response()->json(['er_message' => $vs->messages()]);
+            return response()->json(['er_message' => $vs->errors()]);
         } else {
             $user = User::where('email',$request->email)->first();
             $user->groupe;
