@@ -53,25 +53,26 @@ export class AuthService {
     return this.http.post<User>(`${environment.apiUrl}/auth/login`,{email, password}).pipe(
       catchError((error: HttpErrorResponse) => {
         // Gérer l'erreur ici
-        this.toastr.error( error.statusText, 'Oops!', {
+        this.toastr.error( error.error.message, `Error ${error.status}`, {
           timeOut: 3000,
         });
+        console.error(error)
         this.setisLoadingStatus(false);
         return throwError('Erreur lors de la connexion. Veuillez réessayer.');
       })
     ).subscribe(
       (res:any) => {
         if(res.token){
-          this.toastr.success('Logged in successfully', 'Nice', {
-            timeOut: 3000,
-          });
           sessionStorage.setItem('token', res.token);
           this.setisLoadingStatus(false);
           this.router.navigate(['/home']);
+          this.toastr.success('Logged in successfully', 'Nice', {
+            timeOut: 3000,
+          });
         }
         else{
           this.setisLoadingStatus(false);
-          this.toastr.error(res.err_message, 'Oops!', {
+          this.toastr.warning(res.err_message, 'Oops!', {
             timeOut: 3000,
           });
           console.log(res.err_message)
