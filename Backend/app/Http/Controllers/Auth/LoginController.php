@@ -32,8 +32,9 @@ class LoginController extends Controller
             if(!$user) return response()->json(['err_message'=>'Utilisateur invalide']);
             if(!Hash::check($request->password,$user->password)) return response()->json(['err_message' => 'Mot de passe incorrect']);
             $token = $user->createToken('CLE_SECRETE')->plainTextToken;
-            
+
             return [
+                'user' => $user,
                 'token' => $token,
             ];
         }
