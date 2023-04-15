@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserModel } from '../../models/user.model';
 import { MainService } from '../../services/main.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -13,10 +14,11 @@ export class HomeComponent implements OnInit {
   loading$!: Observable<boolean>;
   users$!: Observable<UserModel[]>;
 
-  constructor(private mainService: MainService){}
+  constructor(private mainService: MainService, private auth: AuthService){}
   ngOnInit(): void {
     this.initObservables();
     this.mainService.getUsers();
+    this.auth.decodeToken()
   }
   private initObservables(){
     this.loading$ = this.mainService.loading$;
