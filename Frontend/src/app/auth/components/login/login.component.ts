@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+
   }
 
   loginForm: FormGroup = this.fb.group({
@@ -32,4 +33,5 @@ export class LoginComponent implements OnInit {
   register(){
     this.router.navigateByUrl('auth/register')
   }
+
 }

@@ -17,20 +17,20 @@ export class AuthService {
   ) { }
 
   decoded_token!: DecodedToken;
+
   private _loggedIn$ = new BehaviorSubject<boolean>(false);
 
   get isLoggedIn$():Observable<boolean> {
     return this._loggedIn$.asObservable();
   }
 
-  private setisLoggedInStatus(loggedIn:boolean){
+  setisLoggedInStatus(loggedIn:boolean){
     this._loggedIn$.next(loggedIn)
   }
 
   onRegister(name: string, email: string, password: string, role: string) {
     return this.http.post<Users>(`${environment.apiUrl}/user`,{name, email, password, role}).pipe(
       tap((res: any) => {
-        this.setisLoggedInStatus(true);
         sessionStorage.setItem('token', res.token);
         this.router.navigate(['/home']);
       }
@@ -41,7 +41,6 @@ export class AuthService {
     return this.http.post<User>(`${environment.apiUrl}/auth/login`,{email, password}).pipe(
       tap((res:any) => {
         console.log(res);
-        this.setisLoggedInStatus(true);
         sessionStorage.setItem('token', res.token);
         this.router.navigate(['/home']);
       })

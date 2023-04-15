@@ -7,7 +7,8 @@ import { Observable, tap } from 'rxjs';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit{
-  isLoggedIn$!: Observable<boolean>;
+  isLogged = false;
+  isLogg$! : Observable<boolean>;
   constructor(private authService: AuthService){}
 
   ngOnInit(): void{
@@ -15,9 +16,6 @@ export class NavbarComponent implements OnInit{
   }
 
   private initObservables(){
-    this.authService.isLoggedIn$.pipe(
-      tap(value => console.log(value))
-    ).subscribe()
-    this.isLoggedIn$ = this.authService.isLoggedIn$;
+    this.isLogg$ = this.authService.isLoggedIn$
   }
 }

@@ -1,3 +1,4 @@
+<button (click)="logout()">Logout</button>
 <mat-spinner *ngIf="loading$ | async" style="position: fixed;left: 50%;top: 50%;transform:translate(-50%,-50%)"></mat-spinner>
   <mat-nav-list *ngIf="users$ | async as users" style="display: flex;justify-content: center;">
     <table>

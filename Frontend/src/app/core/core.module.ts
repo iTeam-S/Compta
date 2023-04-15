@@ -5,6 +5,7 @@ import { httpInterceptorProviders } from './interceptor';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../auth/services/auth.service';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { RouterModule } from '@angular/router';
     HttpClientModule
   ],
   providers: [
-    httpInterceptorProviders
+    httpInterceptorProviders,
+    AuthService
   ],
   exports:[
     NavbarComponent
