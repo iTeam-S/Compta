@@ -38,8 +38,9 @@ export class AuthService {
   }
 
   onLogin(email: string, password: string) {
-    return this.http.post<User>(`${environment.apiUrl}/user/login`,{email, password}).pipe(
+    return this.http.post<User>(`${environment.apiUrl}/auth/login`,{email, password}).pipe(
       tap((res:any) => {
+        console.log(res);
         this.setisLoggedInStatus(true);
         sessionStorage.setItem('token', res.token);
         this.router.navigate(['/home']);
