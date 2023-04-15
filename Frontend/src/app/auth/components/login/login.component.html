@@ -36,11 +36,8 @@
           </mat-error>
         </mat-form-field>
         </div>
-        <button mat-flat-button color="primary">Login</button>
+          <button *ngIf="!(loading$ | async)" mat-flat-button color="primary" [disabled] = "disabled()">Login</button>
+          <mat-spinner [diameter]="30" class='loading' *ngIf="loading$ | async" color="primary" mode="indeterminate"></mat-spinner>
       </form>
-
-      <div class="button-row">
-        <p (click)="register()">Create New Account</p>
-      </div>
     </mat-card-content>
   </mat-card>

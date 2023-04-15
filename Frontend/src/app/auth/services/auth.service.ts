@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { User } from '../models/login-form-value.model';
@@ -6,19 +6,22 @@ import { Users } from '../models/register-form-value.model';
 import { Router } from '@angular/router';
 import jwt_decode from 'jwt-decode';
 import { DecodedToken } from '../models/decodedToken.model';
-import { BehaviorSubject, tap, Observable } from 'rxjs';
+import { BehaviorSubject, tap, Observable, catchError, throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   constructor(private http: HttpClient,
-              private router: Router
+              private router: Router,
+              private toastr: ToastrService
   ) { }
 
   decoded_token!: DecodedToken;
 
   private _loggedIn$ = new BehaviorSubject<boolean>(false);
+  private _loading$ = new BehaviorSubject<boolean>(false);
 
   get isLoggedIn$():Observable<boolean> {
     return this._loggedIn$.asObservable();
@@ -26,6 +29,14 @@ export class AuthService {
 
   setisLoggedInStatus(loggedIn:boolean){
     this._loggedIn$.next(loggedIn)
+  }
+
+  get isLoading$():Observable<boolean> {
+    return this._loading$.asObservable();
+  }
+
+  setisLoadingStatus(loading:boolean){
+    this._loading$.next(loading)
   }
 
   onRegister(name: string, email: string, password: string, role: string) {
@@ -38,13 +49,35 @@ export class AuthService {
   }
 
   onLogin(email: string, password: string) {
+    this.setisLoadingStatus(true)
     return this.http.post<User>(`${environment.apiUrl}/auth/login`,{email, password}).pipe(
-      tap((res:any) => {
-        console.log(res);
-        sessionStorage.setItem('token', res.token);
-        this.router.navigate(['/home']);
+      catchError((error: HttpErrorResponse) => {
+        // Gérer l'erreur ici
+        this.toastr.error( error.statusText, 'Oops!', {
+          timeOut: 3000,
+        });
+        this.setisLoadingStatus(false);
+        return throwError('Erreur lors de la connexion. Veuillez réessayer.');
       })
-    ).subscribe();
+    ).subscribe(
+      (res:any) => {
+        if(res.token){
+          this.toastr.success('Logged in successfully', 'Nice', {
+            timeOut: 3000,
+          });
+          sessionStorage.setItem('token', res.token);
+          this.setisLoadingStatus(false);
+          this.router.navigate(['/home']);
+        }
+        else{
+          this.setisLoadingStatus(false);
+          this.toastr.error(res.err_message, 'Oops!', {
+            timeOut: 3000,
+          });
+          console.log(res.err_message)
+        }
+      }
+    );
   }
 
   getToken():string{

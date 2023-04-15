@@ -48,3 +48,16 @@ mat-card {
   padding-right: 60px;
   text-decoration: none;
 }
+
+.loading {
+  position: fixed;
+  top: 86%;
+  bottom: -10px;
+  left: 48%;
+  right: 50%;
+  height: inherit;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
