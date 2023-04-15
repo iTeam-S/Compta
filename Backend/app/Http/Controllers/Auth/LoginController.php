@@ -33,8 +33,7 @@ class LoginController extends Controller
             $user->groupe->permissions;
             $array_user = [
                 'id' => $user->id,
-                'nom' => $user->nom,
-                'prenom' => $user->prenom,
+                'name' => $user->name,
                 'email' => $user->email,
                 'groupe' => [
                     'id' => $user->groupe->id,
