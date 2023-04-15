@@ -13,9 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Permission::factory(1)->create();
-        \App\Models\Groupe::factory(1)->create();
-        \App\Models\GroupePermission::factory(1)->create();
+        // \App\Models\Permission::factory(1)->create();
+        // \App\Models\Groupe::factory(1)->create();
+        // \App\Models\GroupePermission::factory(1)->create();
         \App\Models\User::factory(1)->create();
     }
 }
